@@ -6,7 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/YOUR_USERNAME/github-api-support-suite.git'
+                    url: 'https://github.com/JasonRMorley/Github-API-TestSuite.git'
             }
         }
 
