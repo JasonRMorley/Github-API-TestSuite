@@ -336,7 +336,7 @@
     "bearer": [
       {
         "key": "token",
-        "value": "{{github_fine_token}}",
+        "value": "{{github-fine-token}}",
         "type": "string"
       }
     ]
@@ -363,20 +363,6 @@
           ""
         ]
       }
-    }
-  ],
-  "variable": [
-    {
-      "key": "base_url",
-      "value": ""
-    },
-    {
-      "key": "github_fine_token",
-      "value": ""
-    },
-    {
-      "key": "owner",
-      "value": ""
     }
   ]
 }
