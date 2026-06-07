@@ -17,8 +17,8 @@ pipeline {
         stage('Run Newman Tests') {
             steps {
                 sh '''
-                    newman run Postman/collections/repository_lifecycle.postman_collection \
-                        -e Postman/environments/github_api-support-suite-env.postman_environment \
+                    newman run Postman/collections/repository_lifecycle.postman_collection.json \
+                        -e Postman/environments/github_api-support-suite-env.postman_environment.json \
                         -r htmlextra \
                         --reporter-htmlextra-export newman-report.html
                 '''
