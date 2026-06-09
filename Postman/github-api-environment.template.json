@@ -1,0 +1,57 @@
+{
+  "id": "42bc7397-7689-4215-b0be-66edfaa89589",
+  "name": "github_api-support-suite-env",
+  "values": [
+    {
+      "key": "github-fine-token",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "repoName",
+      "value": "newman-test-repo",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "repoId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "repoOwner",
+      "value": "JasonRMorley",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "repoFullname",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "updatedDescription",
+      "value": "This is a new description",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "base_url",
+      "value": "https://api.github.com",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "owner",
+      "value": "JasonRMorley",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "color": null,
+  "_postman_variable_scope": "environment",
+  "_postman_exported_using": "Postman/12.13.4"
+}

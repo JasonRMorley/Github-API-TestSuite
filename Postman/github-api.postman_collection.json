@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "68fbf5c0-cd9a-44f1-bbb9-d04f3075fb3e",
-    "name": "repository_lifecycle",
+    "name": "github-api-collection",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "52759507",
     "_collection_link": "https://go.postman.co/collection/52759507-68fbf5c0-cd9a-44f1-bbb9-d04f3075fb3e?source=collection_link"
@@ -27,29 +27,27 @@
           "listen": "test",
           "script": {
             "exec": [
-              "const repoId = pm.response.json().id;\r",
-              "const repoName = pm.response.json().name;\r",
-              "const repoFullname = pm.response.json().full_name;\r",
-              "const repoOwner = pm.response.json().owner.login;\r",
-              "\r",
-              "console.log(repoFullname)\r",
-              "\r",
-              "pm.environment.set(\"repoId\", repoId);\r",
-              "pm.environment.set(\"repoName\", repoName);\r",
-              "pm.environment.set(\"repoFullname\", repoFullname);\r",
-              "pm.environment.set(\"repoOwner\", repoOwner);\r",
-              "\r",
               "pm.test(\"Status code is 201\", function () {\r",
               "    pm.response.to.have.status(201);\r",
               "});\r",
               "\r",
+              "if (pm.response.code !== 201) {\r",
+              "    return;\r",
+              "}\r",
+              "\r",
+              "const data = pm.response.json();\r",
+              "const expectedRepoName = pm.environment.get(\"repoName\");\r",
+              "\r",
+              "pm.environment.set(\"repoId\", data.id);\r",
+              "pm.environment.set(\"repoName\", data.name);\r",
+              "pm.environment.set(\"repoFullname\", data.full_name);\r",
+              "pm.environment.set(\"repoOwner\", data.owner.login);\r",
+              "\r",
               "pm.test(\"Repository name is correct\", function () {\r",
-              "    const data = pm.response.json();\r",
-              "    pm.expect(data.name).to.eql(pm.environment.get(\"repoName\"));\r",
+              "    pm.expect(data.name).to.eql(expectedRepoName);\r",
               "});\r",
               "\r",
               "pm.test(\"Repository owner is correct\", function () {\r",
-              "    const data = pm.response.json();\r",
               "    pm.expect(data.owner.login).to.exist;\r",
               "});"
             ],
@@ -82,10 +80,6 @@
             "key": "accept",
             "value": "application/vnd.github+json",
             "disabled": true
-          },
-          {
-            "key": "Authorization",
-            "value": "{{github_fine_token}}"
           }
         ],
         "body": {
@@ -172,13 +166,13 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/repos/{{owner}}/{{repoName}}",
+          "raw": "{{base_url}}/repos/{{repoOwner}}/{{repoName}}",
           "host": [
             "{{base_url}}"
           ],
           "path": [
             "repos",
-            "{{owner}}",
+            "{{repoOwner}}",
             "{{repoName}}"
           ]
         }
@@ -257,13 +251,13 @@
           }
         },
         "url": {
-          "raw": "{{base_url}}/repos/{{owner}}/{{repoName}}",
+          "raw": "{{base_url}}/repos/{{repoOwner}}/{{repoName}}",
           "host": [
             "{{base_url}}"
           ],
           "path": [
             "repos",
-            "{{owner}}",
+            "{{repoOwner}}",
             "{{repoName}}"
           ]
         }
@@ -317,13 +311,13 @@
           }
         ],
         "url": {
-          "raw": "{{base_url}}/repos/{{owner}}/{{repoName}}",
+          "raw": "{{base_url}}/repos/{{repoOwner}}/{{repoName}}",
           "host": [
             "{{base_url}}"
           ],
           "path": [
             "repos",
-            "{{owner}}",
+            "{{repoOwner}}",
             "{{repoName}}"
           ]
         }
