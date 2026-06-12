@@ -105,6 +105,216 @@
       "response": []
     },
     {
+      "name": "create_repo_missing_name_negative",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 422\", function () {",
+              "    pm.response.to.have.status(422);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "User-Agent",
+            "value": "PostmanRuntime"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Negative test repo missing required name\",\n  \"private\": true,\n  \"auto_init\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/user/repos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user",
+            "repos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create_repo_invalid_token_negative",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.variables.set(\"invalidRepoName\", \"invalid-token-repo-\" + Date.now());"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "invalid-token",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "User-Agent",
+            "value": "PostmanRuntime"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{invalidRepoName}}\",\n  \"description\": \"Negative test repo with invalid token\",\n  \"private\": true,\n  \"auto_init\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/user/repos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user",
+            "repos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create_repo_duplicate_name_negative",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 422\", function () {",
+              "    pm.response.to.have.status(422);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "User-Agent",
+            "value": "PostmanRuntime"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{repoName}}\",\n  \"description\": \"Negative test duplicate repo name\",\n  \"private\": true,\n  \"auto_init\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/user/repos",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "user",
+            "repos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "get_repo",
       "event": [
         {
@@ -173,6 +383,111 @@
           "path": [
             "repos",
             "{{repoOwner}}",
+            "{{repoName}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get_repo_does_not_exist_negative",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.variables.set(\"missingRepoName\", \"repo-does-not-exist-\" + Date.now());"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/repos/{{repoOwner}}/{{missingRepoName}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "repos",
+            "{{repoOwner}}",
+            "{{missingRepoName}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "get_repo_invalid_owner_negative",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/repos/invalid-owner-does-not-exist-{{repoOwner}}/{{repoName}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "repos",
+            "invalid-owner-does-not-exist-{{repoOwner}}",
             "{{repoName}}"
           ]
         }
@@ -265,6 +580,139 @@
       "response": []
     },
     {
+      "name": "update_repo_invalid_token_negative",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "invalid-token",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Invalid token update attempt\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/repos/{{repoOwner}}/{{repoName}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "repos",
+            "{{repoOwner}}",
+            "{{repoName}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update_repo_does_not_exist_negative",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.variables.set(\"missingRepoName\", \"repo-does-not-exist-\" + Date.now());"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"description\": \"Missing repo update attempt\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/repos/{{repoOwner}}/{{missingRepoName}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "repos",
+            "{{repoOwner}}",
+            "{{missingRepoName}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "delete_repo",
       "event": [
         {
@@ -319,6 +767,121 @@
             "repos",
             "{{repoOwner}}",
             "{{repoName}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete_repo_invalid_token_negative",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 401\", function () {",
+              "    pm.response.to.have.status(401);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "invalid-token",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/repos/{{repoOwner}}/{{repoName}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "repos",
+            "{{repoOwner}}",
+            "{{repoName}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete_repo_does_not_exist_negative",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "pm.variables.set(\"missingRepoName\", \"repo-does-not-exist-\" + Date.now());"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {",
+              "    pm.response.to.have.status(404);",
+              "});",
+              "",
+              "pm.test(\"Response is JSON\", function () {",
+              "    pm.response.to.be.json;",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Accept",
+            "value": "application/vnd.github+json"
+          },
+          {
+            "key": "X-GitHub-Api-Version",
+            "value": "2022-11-28"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/repos/{{repoOwner}}/{{missingRepoName}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "repos",
+            "{{repoOwner}}",
+            "{{missingRepoName}}"
           ]
         }
       },
